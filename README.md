@@ -1,5 +1,7 @@
 # 🦹‍♂️ La Legión del Mal
 
+Contenido del curso **Git + GitHub** de [Fernando Herrera](https://www.udemy.com/course/git-github) en Udemy.
+
 > _"El mundo no se conquista con fuerza bruta, se conquista con un buen plan y control de versiones."_
 > — Lex Luthor, fundador
 
