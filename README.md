@@ -1,3 +1,14 @@
+![Estático](https://img.shields.io/badge/Legion--del--mal-Activa-green)
+
+
+![Con logo](https://img.shields.io/badge/Git-2.45-F05032?style=for-the-badge&logo=git&logoColor=white)
+
+![Workflow](https://img.shields.io/github/actions/workflow/status/mjriveraknowmad/curso-git-legion-del-mal/ci.yml)
+![Release](https://img.shields.io/github/v/release/mjriveraknowmad/curso-git-legion-del-mal)
+![Issues](https://img.shields.io/github/issues/mjriveraknowmad/curso-git-legion-del-mal)
+![Último commit](https://img.shields.io/github/last-commit/mjriveraknowmad/curso-git-legion-del-mal)
+![Licencia](https://img.shields.io/github/license/mjriveraknowmad/curso-git-legion-del-mal)
+
 # 🦹‍♂️ La Legión del Mal
 
 Contenido del curso **Git + GitHub** de [Fernando Herrera](https://www.udemy.com/course/git-github) en Udemy.
