@@ -6,3 +6,14 @@ Spider-Man, conocido en español como el Hombre Araña, es un superhéroe de los
 
 - Doctor Octopus
 - Green Goblin
+
+## Películas
+- Spider-Man	
+- Spider-Man 2	
+- Spider-Man 3	
+- The Amazing Spider-Man
+- The Amazing Spider-Man 2
+- Spider-Man: Homecoming 
+- Spider-Man: Lejos de casa 
+- Spider-Man: No Way Home
+- Spider-Man: Brand New Day
