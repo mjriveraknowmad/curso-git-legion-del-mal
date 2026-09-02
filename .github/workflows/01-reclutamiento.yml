@@ -26,3 +26,27 @@ jobs:
           echo "Operación (sha): ${{ github.sha }}"
           echo "Evento: ${{ github.event_name }}"
           echo "Metadata: ${{ toJSON(github) }}"
+
+      - name: Capacidades
+        run: |
+          echo "Reporte de capacidades:"
+          echo "======================="
+          echo ""
+          echo "Sistema Operativo"
+          uname -a
+          echo "Node.js"
+          node --version
+          echo "Git"
+          git --version
+          echo "Python"
+          python3 --version
+      
+      - name: Reconocimiento del entorno
+        run: |
+          echo "Reporte del entorno:"
+          echo "====================="
+          echo ""
+          echo "Directorio actual"
+          pwd
+          echo "Contenido del directorio"
+          ls -la
