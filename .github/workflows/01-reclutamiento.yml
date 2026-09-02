@@ -1,0 +1,16 @@
+
+name: Reclutamiento de Agente
+
+# Controla cuándo se ejecutará el workflow
+on: push
+
+jobs:
+  # Este workflow contiene un solo job llamado "reporte-de-reclutamiento"
+  reporte-de-reclutamiento:
+    # el job correrá en un ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      # Ejecuta un solo comando usando la shell del runner
+      - name: El agente se presenta
+        run: echo "Hola, me presento como nuevo agente."
