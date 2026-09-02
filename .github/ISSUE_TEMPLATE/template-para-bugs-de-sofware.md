@@ -2,7 +2,7 @@
 name: Template para bugs de sofware
 about: Ayudanos a mejorar el proyecto
 title: 'Bug: '
-labels: bug, enhancement
+labels: bug, enhancement, Mejora de software
 assignees: mjriveraknowmad
 
 ---
