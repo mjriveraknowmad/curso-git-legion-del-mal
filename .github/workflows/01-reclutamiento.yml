@@ -11,6 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Ejecuta un solo comando usando la shell del runner
+      # Ejecuta un comando usando la shell del runner
       - name: El agente se presenta
         run: echo "Hola, me presento como nuevo agente."
+
+      - name: Reporte de identidad
+        run: |
+          echo "Reporte de identidad:"
+          echo "====================="
+          echo ""
+          echo "Nombre clave: ${{ github.actor }}"
+          echo "Contexto de GitHub"
+          echo "Repositorio: ${{ github.repository }}"
+          echo "Operación (sha): ${{ github.sha }}"
+          echo "Evento: ${{ github.event_name }}"
+          echo "Metadata: ${{ toJSON(github) }}"
