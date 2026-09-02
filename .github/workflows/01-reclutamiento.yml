@@ -1,8 +1,7 @@
-
 name: Reclutamiento de Agente
 
-# Controla cuándo se ejecutará el workflow
-on: push
+on:
+  workflow_dispatch:
 
 jobs:
   # Este workflow contiene un solo job llamado "reporte-de-reclutamiento"
