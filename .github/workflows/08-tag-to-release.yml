@@ -1,0 +1,128 @@
+# ╔══════════════════════════════════════════════════════╗
+# ║  DECRETO AUTOMÁTICO DE LA LEGIÓN DEL MAL             ║
+# ║                                                      ║
+# ║  Cada vez que se publica un tag (ej: v1.0.0),        ║
+# ║  Brainiac redacta el Release automáticamente con     ║
+# ║  el registro de todo lo que cambió en esa versión.   ║
+# ║                                                      ║
+# ║  La base de este workflow se ha generado con una IA, ║
+# ║  con el prompt:                                      ║
+# ║  Necesito crear un "workflow" o acción que cuando se ║
+# ║  cree un "tag" automáticamente cree el "release tag".║
+# ║  Necesito que también añadas la información de los   ║
+# ║  "logs" y lo que cambió en esa versión.              ║
+# ║                                                      ║                                                 ║
+# ║  Uso:                                                ║
+# ║    git tag -a v1.0.0 -m "Primera dominación"         ║
+# ║    git push origin v1.0.0                            ║
+# ╚══════════════════════════════════════════════════════╝
+
+name: 🏷️ Decreto de Versión (Tag → Release)
+
+on:
+  push:
+    tags:
+      - "v*" # Se dispara con cualquier tag que empiece por v: v1.0.0, v2.1.3-beta...
+
+permissions:
+  contents: write # Necesario para poder crear el Release
+
+jobs:
+  decretar-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Brainiac accede a la base
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Traemos TODO el historial y los tags para poder comparar versiones
+
+      - name: Identificar la versión decretada
+        id: version
+        run: |
+          # GITHUB_REF_NAME contiene el nombre del tag que disparó el workflow
+          TAG="${GITHUB_REF_NAME}"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+          # Buscamos el tag anterior para saber desde dónde comparar
+          TAG_ANTERIOR=$(git describe --tags --abbrev=0 "${TAG}^" 2>/dev/null || echo "")
+          echo "tag_anterior=${TAG_ANTERIOR}" >> "$GITHUB_OUTPUT"
+
+          echo "🏷️ Versión decretada: ${TAG}"
+          echo "📜 Versión anterior:  ${TAG_ANTERIOR:-(ninguna, es la primera)}"
+
+      - name: Redactar el registro de cambios
+        id: changelog
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          TAG_ANTERIOR="${{ steps.version.outputs.tag_anterior }}"
+
+          if [ -z "${TAG_ANTERIOR}" ]; then
+            # Primera versión: listamos todo el historial
+            RANGO="${TAG}"
+            TITULO_RANGO="Historial completo de la Legión"
+          else
+            # Solo los commits entre el tag anterior y este
+            RANGO="${TAG_ANTERIOR}..${TAG}"
+            TITULO_RANGO="Cambios desde \`${TAG_ANTERIOR}\`"
+          fi
+
+          # Métricas de la versión
+          NUM_COMMITS=$(git rev-list --count ${RANGO})
+          NUM_ARCHIVOS=$(git diff --name-only ${TAG_ANTERIOR:+${TAG_ANTERIOR}..}${TAG} | wc -l | tr -d ' ')
+          CONSPIRADORES=$(git log --format="%an" ${RANGO} | sort -u | sed 's/^/- /')
+
+          # Lista de commits con hash corto, mensaje y autor
+          LOGS=$(git log --no-merges --pretty=format:"- \`%h\` %s — _%an_ (%ad)" --date=short ${RANGO})
+
+          # Archivos que cambiaron en esta versión
+          ARCHIVOS=$(git diff --name-status ${TAG_ANTERIOR:+${TAG_ANTERIOR}..}${TAG} | sed 's/^A\t/- ➕ /; s/^M\t/- ✏️ /; s/^D\t/- ❌ /; s/^R[0-9]*\t/- 🔄 /')
+
+          # Escribimos las notas del release en un archivo
+          # (usamos un archivo y no una variable porque el texto es multilínea)
+          cat > NOTAS_RELEASE.md << EOF
+          ## 🦹 Decreto de la Legión del Mal — ${TAG}
+
+          > _"Cada versión nos acerca un paso más a la dominación mundial."_ — Brainiac
+
+          **Fecha del decreto:** $(date -u +"%d/%m/%Y a las %H:%M UTC")
+
+          ### 📊 Resumen de la operación
+
+          | Métrica | Valor |
+          |---|---|
+          | Commits en esta versión | ${NUM_COMMITS} |
+          | Archivos modificados | ${NUM_ARCHIVOS} |
+          | Versión anterior | ${TAG_ANTERIOR:-N/A (primer decreto)} |
+
+          ### 📜 ${TITULO_RANGO}
+
+          ${LOGS:-_Sin cambios registrados._}
+
+          ### 📁 Archivos afectados
+
+          ${ARCHIVOS:-_Ningún archivo modificado._}
+
+          ### 🕵️ Conspiradores de esta versión
+
+          ${CONSPIRADORES}
+
+          ---
+
+          _Decreto generado automáticamente por Brainiac v12.0_
+          EOF
+
+          echo "✅ Notas del release redactadas:"
+          cat NOTAS_RELEASE.md
+
+      - name: Publicar el Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+
+          gh release create "${TAG}" \
+            --title "🦹 Legión del Mal ${TAG}" \
+            --notes-file NOTAS_RELEASE.md \
+            --verify-tag
+
+          echo "🎉 Release ${TAG} publicado. La dominación avanza."
