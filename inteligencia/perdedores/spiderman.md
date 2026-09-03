@@ -24,3 +24,7 @@ Spider-Man, conocido en español como el Hombre Araña, es un superhéroe de los
 - Mary Jane Watson (MJ)
 - Harry Osborn
 - Miles Morales y Gwen Stacy (Ghost-Spider)
+
+## Estrategia recomendada
+
+Revisar el envío de tela de arañas diariamente.
