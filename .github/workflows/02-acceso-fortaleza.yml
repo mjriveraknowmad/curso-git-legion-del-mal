@@ -1,0 +1,34 @@
+name: Acceso a la Fortaleza Prohibida
+
+on:
+    workflow_dispatch:
+
+jobs:
+    acceso-a-la-base:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: El agente llega a la Fortaleza
+              run: |
+                echo "Agente ${{github.actor}} llega a la fortaleza"
+                echo ""
+                echo "Buscar los archivos de la Legión"
+                ls -la
+                echo ""
+                echo "X pero qué paso? no hay nada (no hizo el checkout todavía)"
+
+            - name: "Brainiac desbloquea la bóveda"
+              uses: actions/checkout@v4
+
+            - name: "Ahora sí, vamos a ver los planes"
+              run: |
+                echo "Buscar los archivos de la Legión"
+                ls -la
+                echo "Funciona!!!"
+                echo ""
+                echo "Planes:"
+                ls planes/
+                echo "miembros"
+                ls miembros/
+                echo "Inteligencia"
+                ls inteligencia/
