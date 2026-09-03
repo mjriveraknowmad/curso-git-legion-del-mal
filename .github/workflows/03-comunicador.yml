@@ -1,0 +1,65 @@
+name: Comunicador de la Legión
+
+on:
+  workflow_dispatch:
+    inputs:
+      villano:
+        description: "¿Qué villano envía el mensaje?"
+        required: true
+        type: choice
+        options:
+          - Lex Luthor
+          - Magneto
+          - Joker
+          - Thanos
+          - Darth Vader
+
+      mensaje:
+        description: "Mensaje para el consejo"
+        required: true
+        default: "La misión ha sido completada con éxito."
+
+      cow_character:
+        description: "Elige un personaje"
+        required: true
+        type: choice
+        options:
+          - eyes
+          - ghostbusters
+          - dragon
+          - tux
+          - fox
+
+
+      prioridad:
+        description: "Nivel de prioridad"
+        required: true
+        type: choice
+        options:
+          - 🟢 Normal
+          - 🟠 Alta
+          - 🔴 Urgente
+
+jobs:
+
+  transmitir-mensaje:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Instalar el transmisor de la Legión
+        run: sudo apt-get install -y cowsay
+        
+      - name: Imprimir inputs
+        run: |
+          echo "================================"
+          echo "    Transmisión interceptada "
+          echo "================================"
+          echo ""
+          echo "De: ${{inputs.villano}}"
+          echo ""
+          echo "Fecha: $(date -u +"%d/%m/%Y - %H:%M:%S UTC")"
+          echo "------- Mensaje -------"
+          cowsay -f "${{inputs.cow_character}}" "${{inputs.mensaje}}"
+          echo ""
+          echo "---- ${{inputs.villano}} ----"
+          echo "..."
