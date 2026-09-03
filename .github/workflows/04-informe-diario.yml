@@ -71,8 +71,8 @@ jobs:
 
       - name: Brainiac archiva el informe
         run: |
-          git config user.name "Guillermo Mora Martinez"
-          git config user.email "guillermo_moram@outlook.es"
+          git config user.name "Bot Informe diario"
+          git config user.email "botInformeDiario@empresaInventadaXyZ.es"
           git add README.md
           git commit -m "📊 Informe diario de dominación - $(date -u +%Y-%m-%d)"
           git push
